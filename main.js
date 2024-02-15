@@ -56,6 +56,8 @@ const posts = [
     }
 ];
 
+let idLikedPosts = [];
+
 const containerEl = document.getElementById("container");
 
 posts.forEach(function(element) {
@@ -79,16 +81,39 @@ posts.forEach(function(element) {
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#" data-postid="1">
+                    <a class="like-button-${element.id}  js-like-button" href="#" data-postid="${element.id}">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
                 </div>
                 <div class="likes__counter">
-                    Piace a <b id="like-counter-1" class="js-likes-counter">${element.likes}</b> persone
+                    Piace a <b id="like-counter-${element.id}" class="js-likes-counter">${element.likes}</b> persone
                 </div>
             </div> 
         </div>            
     </div>
-    `
-})
+    `;
+
+    document.querySelectorAll('.js-like-button').forEach(element => { // lo stesso comportamento relativo agli array
+        element.addEventListener('click', function(event) {
+            event.preventDefault(); // Previene il reset della pagina
+    
+            const postId = this.getAttribute("data-postid");  //this ci riporta al bottone, getAttribute attribuisce l'id del post alla costante
+            const likeCounter = document.getElementById(`like-counter-${postId}`);   //associo ad una variabile il like-counter relativo al post
+    
+            for (let i = 0; i < posts.length; i++) {
+                if (posts[i].id == postId) {
+                    element = posts[i];
+                    break; // Esce dal ciclo una volta trovato l'elemento
+                }
+            }
+            element.likes++;
+            likeCounter.textContent = element.likes;
+
+            this.style.color = ("#219de1");
+            idLikedPosts.push(postId);
+            console.log(idLikedPosts)
+        });
+    });
+
+});
