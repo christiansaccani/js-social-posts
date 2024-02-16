@@ -55,12 +55,13 @@ const posts = [
         "created": "2021-03-05"
     }
 ];
-
+ 
 let idLikedPosts = [];
 
 const containerEl = document.getElementById("container");
 
 posts.forEach(function(element) {
+    
     containerEl.innerHTML += `
     <div class="post">
         <div class="post__header">
@@ -116,4 +117,15 @@ posts.forEach(function(element) {
         });
     });
 
+    // Converto la data in formato americano a fprmato italiano
+    const dataAmericana = element.created; 
+
+    // Converte la data in un oggetto Date
+    const data = new Date(dataAmericana);
+
+    // converto il formato della data ad impostazioni locali e la inizializzo ad una variabile
+    const dataItaliana = data.toLocaleDateString();
+
+    document.querySelector(".post-meta__time").innerText = dataItaliana;
+    // element.created = dataItaliana; -> questo comando per modificare il formato direttamente nell'array
 });
