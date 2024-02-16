@@ -66,8 +66,8 @@ posts.forEach(function(element) {
     <div class="post">
         <div class="post__header">
             <div class="post-meta">                    
-                <div class="post-meta__icon">
-                    <img class="profile-pic" src="${element.author.image}" alt="Phil Mangione">                    
+                <div class="post-meta__icon p-m-i-${element.id} ">
+                <!-- <img class="profile-pic" src="${element.author.image}" alt="Phil Mangione"> -->                   
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author">${element.author.name}</div>
@@ -94,6 +94,29 @@ posts.forEach(function(element) {
         </div>            
     </div>
     `;
+
+    const profilePicture = document.querySelector(`.p-m-i-${element.id}`);
+
+    if (element.author.image != null) {
+        const newElement = document.createElement("img");
+        newElement.className = "profile-pic";
+        newElement.src = element.author.image;
+        newElement.alt = element.author.name;
+        profilePicture.append(newElement);
+    } else {
+        const newElement = document.createElement("div");
+        newElement.className = "profile-pic-default";
+
+        const newSpanElement = document.createElement("span");
+        let nameSurname = element.author.name.split(" ");
+        newSpanElement.innerText = nameSurname[0][0] + nameSurname[1][0];
+        newElement.append(newSpanElement);
+
+        newElement.alt = element.author.name;
+        profilePicture.append(newElement);
+    }
+
+
 
     document.querySelectorAll('.js-like-button').forEach(element => { // lo stesso comportamento relativo agli array
         element.addEventListener('click', function(event) {
