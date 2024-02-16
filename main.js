@@ -61,7 +61,7 @@ let idLikedPosts = [];
 const containerEl = document.getElementById("container");
 
 posts.forEach(function(element) {
-    
+
     containerEl.innerHTML += `
     <div class="post">
         <div class="post__header">
@@ -102,18 +102,34 @@ posts.forEach(function(element) {
             const postId = this.getAttribute("data-postid");  //this ci riporta al bottone, getAttribute attribuisce l'id del post alla costante
             const likeCounter = document.getElementById(`like-counter-${postId}`);   //associo ad una variabile il like-counter relativo al post
     
+            // Ciclo per rendere element l'oggetto attuale
             for (let i = 0; i < posts.length; i++) {
                 if (posts[i].id == postId) {
                     element = posts[i];
                     break; // Esce dal ciclo una volta trovato l'elemento
                 }
             }
-            element.likes++;
-            likeCounter.textContent = element.likes;
 
-            this.style.color = ("#219de1");
-            idLikedPosts.push(postId);
-            console.log(idLikedPosts)
+            if (! idLikedPosts.includes(postId)) {
+                element.likes++;
+                likeCounter.textContent = element.likes;
+
+                this.style.color = ("#219de1");
+                idLikedPosts.push(postId);
+                console.log(idLikedPosts)
+
+                } else {
+                    element.likes--;
+                    likeCounter.textContent = element.likes;
+
+                    this.style.color = ("");
+                    let elementToRemove = postId;
+
+                    let indexToRemove = idLikedPosts.indexOf(elementToRemove);  //indicizzo l'index con il contenuto che mi interessa rimuovere
+                    idLikedPosts.splice(indexToRemove, 1);  //rimuovo 1 elemento con quell'indice 
+                    console.log(idLikedPosts);
+
+            }
         });
     });
 
